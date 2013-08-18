@@ -227,6 +227,7 @@ public class IslandCommand implements CommandExecutor {
 				return false;
 			}
 			uSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(uSkyBlock.getInstance(), new Runnable() {
+				@Override
 				public void run() {
 					System.out.println("uSkyblock " + "Calculating island level in async thread");
 					try {
@@ -291,6 +292,7 @@ public class IslandCommand implements CommandExecutor {
 					System.out.println("uSkyblock " + "Finished async info thread");
 
 					uSkyBlock.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(uSkyBlock.getInstance(), new Runnable() {
+						@Override
 						public void run() {
 							allowInfo = true;
 							System.out.println("uSkyblock " + "Back to sync thread for info");
@@ -594,6 +596,7 @@ public class IslandCommand implements CommandExecutor {
 		blockToChange.setTypeId(12);
 	}
 
+	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] split) {
 		if (!(sender instanceof Player)) { return false; }
 		final Player player = (Player) sender;
@@ -616,7 +619,10 @@ public class IslandCommand implements CommandExecutor {
 
 		if (pi.getIslandLocation() != null || pi.getHasParty()) {
 			if (split.length == 0) {
-				if (pi.getHomeLocation() != null || pi.getHasParty()) {
+
+				if (uSkyBlock.getInstance().playerIsOnIsland(player)) {
+					player.sendMessage(ChatColor.RED + "You are already on your island.");
+				} else if (pi.getHomeLocation() != null || pi.getHasParty()) {
 					uSkyBlock.getInstance().homeTeleport(player);
 				} else {
 					uSkyBlock.getInstance().getActivePlayers().get(player.getName()).setHomeLocation(pi.getIslandLocation());
