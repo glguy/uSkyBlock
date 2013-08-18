@@ -27,8 +27,8 @@ public class PlayerJoin implements Listener {
 
 		if (hungerman.getWorld().getName().equalsIgnoreCase(Settings.general_worldName)
 				&& hungerman.getFoodLevel() > event.getFoodLevel()
-				&& uSkyBlock.getInstance().playerIsOnIsland(hungerman)
-				&& VaultHandler.checkPerk(hungerman.getName(), "usb.extra.hunger", hungerman.getWorld())) {
+				&& VaultHandler.checkPerk(hungerman.getName(), "usb.extra.hunger", hungerman.getWorld())
+				&& uSkyBlock.getInstance().playerIsOnIsland(hungerman)) {
 			event.setCancelled(true);
 		}
 	}
