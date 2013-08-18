@@ -3,7 +3,6 @@ package us.talabrek.ultimateskyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,17 +35,15 @@ public class ProtectionEvents implements Listener {
 	}
 
 	/**
-	 * Prevent players from interacting with horses on other players' islands
+	 * Prevent players from interacting with entities on other players' islands
 	 * but allow in spawn and on own island.
 	 */
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
-	private void onHorseLead(final PlayerInteractEntityEvent event) {
-		if (event.getRightClicked().getType() == EntityType.HORSE) {
-			final Player player = event.getPlayer();
-			if (isRestricted(player, event.getRightClicked().getLocation())
-					&& !uSkyBlock.getInstance().playerIsInSpawn(player)) {
-				event.setCancelled(true);
-			}
+	private void onEntityInteract(final PlayerInteractEntityEvent event) {
+		final Player player = event.getPlayer();
+		if (isRestricted(player, event.getRightClicked().getLocation())
+			&& !uSkyBlock.getInstance().playerIsInSpawn(player)) {
+			event.setCancelled(true);
 		}
 	}
 
