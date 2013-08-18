@@ -1,5 +1,7 @@
 package us.talabrek.ultimateskyblock;
 
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,15 +36,19 @@ public class PlayerJoin implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteract(final PlayerInteractEvent event) {
-		if (Settings.extras_obsidianToLava && uSkyBlock.getInstance().playerIsOnIsland(event.getPlayer())) {
-			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && event.getPlayer().getItemInHand().getTypeId() == 325
-					&& event.getClickedBlock().getType() == Material.OBSIDIAN) {
-				if (!uSkyBlock.getInstance().testForObsidian(event.getClickedBlock())) {
-					event.getPlayer().sendMessage(ChatColor.YELLOW + "Changing your obsidian back into lava. Be careful!");
-					event.getClickedBlock().setType(Material.AIR);
-					event.getPlayer().getInventory().removeItem(new ItemStack[] { new ItemStack(325, 1) });
-					event.getPlayer().getInventory().addItem(new ItemStack[] { new ItemStack(327, 1) });
-				}
+		if (Settings.extras_obsidianToLava
+				&& event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+				&& event.getPlayer().getItemInHand().getType().equals(Material.BUCKET)
+				&& event.getClickedBlock().getType().equals(Material.OBSIDIAN)
+				&& uSkyBlock.getInstance().playerIsOnIsland(event.getPlayer())
+				&& !uSkyBlock.getInstance().testForObsidian(event.getClickedBlock())) {
+
+			final Map<Integer, ItemStack> remaining = event.getPlayer().getInventory().removeItem(new ItemStack[] { new ItemStack(325, 1) });
+
+			if (remaining.isEmpty()) {
+				event.getPlayer().sendMessage(ChatColor.YELLOW + "Changing your obsidian back into lava. Be careful!");
+				event.getClickedBlock().setType(Material.AIR);
+				event.getPlayer().getInventory().addItem(new ItemStack[] { new ItemStack(327, 1) });
 			}
 		}
 	}
