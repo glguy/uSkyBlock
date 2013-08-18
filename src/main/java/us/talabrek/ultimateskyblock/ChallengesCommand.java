@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class ChallengesCommand implements CommandExecutor {
+	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] split) {
 		if (!(sender instanceof Player)) { return false; }
 
@@ -42,9 +43,13 @@ public class ChallengesCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.YELLOW + "Use /c <name> to view information about a challenge.");
 				sender.sendMessage(ChatColor.YELLOW + "Use /c complete <name> to attempt to complete that challenge.");
 				sender.sendMessage(ChatColor.YELLOW + "Challenges will have different colors depending on if they are:");
-				sender.sendMessage(Settings.challenges_challengeColor.replace('&', '§') + "Incomplete "
-						+ Settings.challenges_finishedColor.replace('&', '§') + "Completed(not repeatable) "
-						+ Settings.challenges_repeatableColor.replace('&', '§') + "Completed(repeatable) ");
+				sender.sendMessage(
+						ChatColor.translateAlternateColorCodes('&', Settings.challenges_challengeColor)
+						+ "Incomplete "
+						+ ChatColor.translateAlternateColorCodes('&', Settings.challenges_finishedColor)
+						+ "Completed(not repeatable) "
+						+ ChatColor.translateAlternateColorCodes('&', Settings.challenges_repeatableColor)
+						+ "Completed(repeatable) ");
 			} else if (uSkyBlock.getInstance().isRankAvailable(
 					player,
 					uSkyBlock.getInstance().getChallengeConfig()
@@ -92,12 +97,13 @@ public class ChallengesCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.YELLOW
 								+ "Repeat reward(s): "
 								+ ChatColor.WHITE
-								+ uSkyBlock
+								+ ChatColor.translateAlternateColorCodes('&',
+								    uSkyBlock
 										.getInstance()
 										.getChallengeConfig()
 										.getString(
 												new StringBuilder("options.challenges.challengeList.").append(split[0].toLowerCase())
-														.append(".repeatRewardText").toString()).replace('&', '§'));
+														.append(".repeatRewardText").toString())));
 						player.sendMessage(ChatColor.YELLOW
 								+ "Repeat exp reward: "
 								+ ChatColor.WHITE
@@ -118,12 +124,15 @@ public class ChallengesCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.YELLOW
 								+ "Reward(s): "
 								+ ChatColor.WHITE
-								+ uSkyBlock
+								+ ChatColor.translateAlternateColorCodes('&',
+								    uSkyBlock
 										.getInstance()
 										.getChallengeConfig()
 										.getString(
-												new StringBuilder("options.challenges.challengeList.").append(split[0].toLowerCase())
-														.append(".rewardText").toString()).replace('&', '§'));
+												new StringBuilder("options.challenges.challengeList.")
+												.append(split[0].toLowerCase())
+												.append(".rewardText")
+												.toString())));
 						player.sendMessage(ChatColor.YELLOW
 								+ "Exp reward: "
 								+ ChatColor.WHITE
@@ -146,12 +155,13 @@ public class ChallengesCommand implements CommandExecutor {
 					sender.sendMessage(ChatColor.YELLOW
 							+ "Repeat reward(s): "
 							+ ChatColor.WHITE
-							+ uSkyBlock
+							+ ChatColor.translateAlternateColorCodes('&',
+							    uSkyBlock
 									.getInstance()
 									.getChallengeConfig()
 									.getString(
 											new StringBuilder("options.challenges.challengeList.").append(split[0].toLowerCase())
-													.append(".repeatRewardText").toString()).replace('&', '§'));
+													.append(".repeatRewardText").toString())));
 					player.sendMessage(ChatColor.YELLOW
 							+ "Repeat exp reward: "
 							+ ChatColor.WHITE
@@ -164,12 +174,15 @@ public class ChallengesCommand implements CommandExecutor {
 					sender.sendMessage(ChatColor.YELLOW
 							+ "Reward(s): "
 							+ ChatColor.WHITE
-							+ uSkyBlock
+							+ ChatColor.translateAlternateColorCodes('&',
+								uSkyBlock
 									.getInstance()
 									.getChallengeConfig()
 									.getString(
-											new StringBuilder("options.challenges.challengeList.").append(split[0].toLowerCase())
-													.append(".rewardText").toString()).replace('&', '§'));
+											new StringBuilder("options.challenges.challengeList.")
+											                 .append(split[0].toLowerCase())
+													         .append(".rewardText")
+													         .toString())));
 					player.sendMessage(ChatColor.YELLOW
 							+ "Exp reward: "
 							+ ChatColor.WHITE
