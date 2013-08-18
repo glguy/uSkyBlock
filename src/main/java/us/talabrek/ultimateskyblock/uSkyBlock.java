@@ -482,14 +482,14 @@ public class uSkyBlock extends JavaPlugin {
 			final String tempString = itr.next();
 			if (pi.checkChallenge(tempString)) {
 				if (getChallengeConfig().getBoolean("options.challenges.challengeList." + tempString + ".repeatable")) {
-					fullString = fullString + Settings.challenges_repeatableColor.replace('&', '§') + tempString + ChatColor.DARK_GRAY
+					fullString = fullString + ChatColor.translateAlternateColorCodes('&', Settings.challenges_repeatableColor) + tempString + ChatColor.DARK_GRAY
 							+ " - ";
 				} else {
-					fullString = fullString + Settings.challenges_finishedColor.replace('&', '§') + tempString + ChatColor.DARK_GRAY
+					fullString = fullString + ChatColor.translateAlternateColorCodes('&', Settings.challenges_finishedColor) + tempString + ChatColor.DARK_GRAY
 							+ " - ";
 				}
 			} else {
-				fullString = fullString + Settings.challenges_challengeColor.replace('&', '§') + tempString + ChatColor.DARK_GRAY + " - ";
+				fullString = fullString + ChatColor.translateAlternateColorCodes('&', Settings.challenges_challengeColor) + tempString + ChatColor.DARK_GRAY + " - ";
 			}
 		}
 		if (fullString.length() > 3) {
@@ -676,11 +676,12 @@ public class uSkyBlock extends JavaPlugin {
 				player.sendMessage(ChatColor.YELLOW
 						+ "Repeat reward(s): "
 						+ ChatColor.WHITE
-						+ getInstance()
+						+ ChatColor.translateAlternateColorCodes('&',
+							getInstance()
 								.getChallengeConfig()
 								.getString(
 										new StringBuilder("options.challenges.challengeList.").append(challenge)
-												.append(".repeatRewardText").toString()).replace('&', '§'));
+												.append(".repeatRewardText").toString())));
 				player.sendMessage(ChatColor.YELLOW
 						+ "Repeat exp reward: "
 						+ ChatColor.WHITE
@@ -696,18 +697,21 @@ public class uSkyBlock extends JavaPlugin {
 			} else {
 				if (Settings.challenges_broadcastCompletion) {
 					Bukkit.getServer().broadcastMessage(
-							Settings.challenges_broadcastText.replace('&', '§') + player.getName() + " has completed the " + challenge
-									+ " challenge!");
+							ChatColor.translateAlternateColorCodes('&', Settings.challenges_broadcastText)
+							+ player.getName()
+							+ " has completed the "
+							+ challenge
+							+ " challenge!");
 				}
 				player.giveExp(getInstance().getChallengeConfig().getInt("options.challenges.challengeList." + challenge + ".xpReward"));
 				player.sendMessage(ChatColor.YELLOW
 						+ "Reward(s): "
 						+ ChatColor.WHITE
-						+ getInstance()
+						+ ChatColor.translateAlternateColorCodes('&',
+							getInstance()
 								.getChallengeConfig()
 								.getString(
-										new StringBuilder("options.challenges.challengeList.").append(challenge).append(".rewardText")
-												.toString()).replace('&', '§'));
+										new StringBuilder("options.challenges.challengeList.").append(challenge).append(".rewardText").toString())));
 				player.sendMessage(ChatColor.YELLOW
 						+ "Exp reward: "
 						+ ChatColor.WHITE
@@ -726,11 +730,12 @@ public class uSkyBlock extends JavaPlugin {
 			player.sendMessage(ChatColor.YELLOW
 					+ "Repeat reward(s): "
 					+ ChatColor.WHITE
-					+ getInstance()
+					+ ChatColor.translateAlternateColorCodes('&',
+						getInstance()
 							.getChallengeConfig()
 							.getString(
 									new StringBuilder("options.challenges.challengeList.").append(challenge).append(".repeatRewardText")
-											.toString()).replace('&', '§'));
+											.toString())));
 			player.sendMessage(ChatColor.YELLOW
 					+ "Repeat exp reward: "
 					+ ChatColor.WHITE
@@ -739,18 +744,22 @@ public class uSkyBlock extends JavaPlugin {
 		} else {
 			if (Settings.challenges_broadcastCompletion) {
 				Bukkit.getServer().broadcastMessage(
-						Settings.challenges_broadcastText.replace('&', '§') + player.getName() + " has completed the " + challenge
-								+ " challenge!");
+						ChatColor.translateAlternateColorCodes('&', Settings.challenges_broadcastText)
+						+ player.getName()
+						+ " has completed the "
+						+ challenge
+						+ " challenge!");
 			}
 			player.giveExp(getInstance().getChallengeConfig().getInt("options.challenges.challengeList." + challenge + ".xpReward"));
 			player.sendMessage(ChatColor.YELLOW
 					+ "Reward(s): "
 					+ ChatColor.WHITE
-					+ getInstance()
+					+ ChatColor.translateAlternateColorCodes('&',
+						getInstance()
 							.getChallengeConfig()
 							.getString(
 									new StringBuilder("options.challenges.challengeList.").append(challenge).append(".rewardText")
-											.toString()).replace('&', '§'));
+											.toString())));
 			player.sendMessage(ChatColor.YELLOW
 					+ "Exp reward: "
 					+ ChatColor.WHITE
@@ -1226,6 +1235,7 @@ public class uSkyBlock extends JavaPlugin {
 		populateChallengeList();
 		log.info(pluginFile.getName() + " v." + pluginFile.getVersion() + " enabled.");
 		getInstance().getServer().getScheduler().runTaskLater(getInstance(), new Runnable() {
+			@Override
 			public void run() {
 				if (Bukkit.getServer().getPluginManager().isPluginEnabled("Vault")) {
 					System.out.println("uSkyblock " + "[uSkyBlock] Using vault for permissions");
@@ -1400,6 +1410,7 @@ public class uSkyBlock extends JavaPlugin {
 
 	public void removeInactive(final List<String> removePlayerList) {
 		getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(getInstance(), new Runnable() {
+			@Override
 			public void run() {
 				if (uSkyBlock.getInstance().getRemoveList().size() > 0 && !uSkyBlock.getInstance().isPurgeActive()) {
 					uSkyBlock.getInstance().deletePlayerIsland(uSkyBlock.getInstance().getRemoveList().get(0));
