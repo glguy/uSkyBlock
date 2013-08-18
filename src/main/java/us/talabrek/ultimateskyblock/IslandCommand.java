@@ -245,37 +245,61 @@ public class IslandCommand implements CommandExecutor {
 							final int px = l.getBlockX();
 							final int py = l.getBlockY();
 							final int pz = l.getBlockZ();
+							final World w = l.getWorld();
 							for (int x = -50; x <= 50; x++) {
-								for (int y = Settings.island_height * -1; y <= 255 - Settings.island_height; y++) {
+								for (int y = 0; y <= 255; y++) {
 									for (int z = -50; z <= 50; z++) {
-										final Block b = new Location(l.getWorld(), px + x, py + y, pz + z).getBlock();
-										if (b.getTypeId() == 57) {
+										switch (w.getBlockAt(px + x, py + y, pz + z).getType()) {
+										case AIR:
+											break;
+										case DIAMOND_BLOCK:
 											blockcount += 300;
-										}
-										if (b.getTypeId() == 41 || b.getTypeId() == 116 || b.getTypeId() == 122) {
+											break;
+										case GOLD_BLOCK:
+										case ENCHANTMENT_TABLE:
+										case DRAGON_EGG:
 											blockcount += 150;
-										}
-										if (b.getTypeId() == 49 || b.getTypeId() == 42) {
+											break;
+										case OBSIDIAN:
+										case IRON_BLOCK:
 											blockcount += 10;
-										}
-										if (b.getTypeId() == 47 || b.getTypeId() == 84) {
+											break;
+										case BOOKSHELF:
+										case JUKEBOX:
 											blockcount += 5;
-										}
-										if (b.getTypeId() == 79 || b.getTypeId() == 82 || b.getTypeId() == 112 || b.getTypeId() == 2
-												|| b.getTypeId() == 110) {
+											break;
+										case ICE:
+										case CLAY:
+										case NETHER_BRICK:
+										case GRASS:
+										case MYCEL:
 											blockcount += 3;
-										}
-										if (b.getTypeId() == 98 || b.getTypeId() == 45 || b.getTypeId() == 35 || b.getTypeId() == 24
-												|| b.getTypeId() == 121 || b.getTypeId() == 108 || b.getTypeId() == 109
-												|| b.getTypeId() == 43 || b.getTypeId() == 20) {
+											break;
+										case SMOOTH_BRICK:
+										case BRICK:
+										case WOOL:
+										case SANDSTONE:
+										case ENDER_STONE:
+										case BRICK_STAIRS:
+										case SMOOTH_STAIRS:
+										case DOUBLE_STEP:
+										case GLASS:
 											blockcount += 2;
-										}
-										if (b.getTypeId() != 0 && b.getTypeId() != 8 && b.getTypeId() != 9 && b.getTypeId() != 10
-												&& b.getTypeId() != 11 && b.getTypeId() != 4 || b.getTypeId() == 4 && cobblecount < 10000) {
-											blockcount++;
-											if (b.getTypeId() == 4) {
-												cobblecount++;
+											break;
+										case COBBLESTONE:
+											if (cobblecount++ < 10000) {
+												blockcount++;
 											}
+											break;
+										case WATER:
+										case STATIONARY_WATER:
+										case LAVA:
+										case STATIONARY_LAVA:
+											// Don't count water or lava
+											break;
+										default:
+											blockcount++;
+											break;
 										}
 									}
 								}
