@@ -40,6 +40,7 @@ public class DevCommand implements CommandExecutor {
 		System.out.println("uSkyblock " + ChatColor.YELLOW + "[uSkyBlock] Party list completed.");
 	}
 
+	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] split) {
 		if (!(sender instanceof Player)) { return false; }
 		final Player player = (Player) sender;
@@ -168,6 +169,7 @@ public class DevCommand implements CommandExecutor {
 				final int time = Integer.parseInt(split[1]) * 24;
 				player.sendMessage(ChatColor.YELLOW + "Marking all islands inactive for more than " + split[1] + " days.");
 				uSkyBlock.getInstance().getServer().getScheduler().runTaskAsynchronously(uSkyBlock.getInstance(), new Runnable() {
+					@Override
 					public void run() {
 						final File directoryPlayers = new File(uSkyBlock.getInstance().getDataFolder() + File.separator + "players");
 
@@ -196,6 +198,7 @@ public class DevCommand implements CommandExecutor {
 								+ " inactive islands.");
 						uSkyBlock.getInstance().getServer().getScheduler()
 								.scheduleSyncRepeatingTask(uSkyBlock.getInstance(), new Runnable() {
+									@Override
 									public void run() {
 										if (uSkyBlock.getInstance().getRemoveList().size() > 0 && uSkyBlock.getInstance().isPurgeActive()) {
 											uSkyBlock.getInstance().deletePlayerIsland(uSkyBlock.getInstance().getRemoveList().get(0));
