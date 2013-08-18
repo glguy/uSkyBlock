@@ -306,7 +306,7 @@ public class DevCommand implements CommandExecutor {
 					if (pi.getPartyLeader() != null) {
 						player.sendMessage(ChatColor.RED + "Party leader: " + pi.getPartyLeader() + " should be null!");
 					}
-					if (pi.getMembers() != null) {
+					if (!pi.getMembers().isEmpty()) {
 						player.sendMessage(ChatColor.RED + "Player has party members, but shouldn't!");
 					}
 				}
