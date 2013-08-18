@@ -16,25 +16,24 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerJoin implements Listener {
-	private Player hungerman = null;
 
-	@EventHandler(priority = EventPriority.NORMAL)
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onPlayerFoodChange(final FoodLevelChangeEvent event) {
-		if (event.getEntity() instanceof Player) {
-			hungerman = (Player) event.getEntity();
-			if (hungerman.getWorld().getName().equalsIgnoreCase(Settings.general_worldName)) {
-				if (hungerman.getFoodLevel() > event.getFoodLevel()) {
-					if (uSkyBlock.getInstance().playerIsOnIsland(hungerman)) {
-						if (VaultHandler.checkPerk(hungerman.getName(), "usb.extra.hunger", hungerman.getWorld())) {
-							event.setCancelled(true);
-						}
-					}
-				}
-			}
+		if (!(event.getEntity() instanceof Player)) {
+			return;
+		}
+		final Player hungerman = (Player) event.getEntity();
+
+		if (hungerman.getWorld().getName().equalsIgnoreCase(Settings.general_worldName)
+				&& hungerman.getFoodLevel() > event.getFoodLevel()
+				&& uSkyBlock.getInstance().playerIsOnIsland(hungerman)
+				&& VaultHandler.checkPerk(hungerman.getName(), "usb.extra.hunger", hungerman.getWorld())) {
+			event.setCancelled(true);
 		}
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onPlayerInteract(final PlayerInteractEvent event) {
 		if (Settings.extras_obsidianToLava
 				&& event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
